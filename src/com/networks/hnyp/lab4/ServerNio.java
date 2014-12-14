@@ -77,10 +77,11 @@ public class ServerNio {
                             	socketChannel.read(byteBuffer);
                             	byteBuffer.flip();
                             	while (byteBuffer.hasRemaining()) {
-                            		inputStringBuilder.append(byteBuffer.getChar());
+                            		char symbol = (char)byteBuffer.get();
+                            		inputStringBuilder.append(symbol);
                             	}
                             	byteBuffer.compact();
-                            	String response = "I see your '" + inputStringBuilder.toString() + "'\n";
+                            	String response = "I see your '" + inputStringBuilder.toString().replaceAll("\r\n", "") + "'\n";
                             	byteBuffer.put(response.getBytes());
                             	byteBuffer.flip();
                             	socketChannel.write(byteBuffer);
